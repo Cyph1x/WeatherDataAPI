@@ -116,19 +116,6 @@ if ((bool)builder.Configuration.GetValue(typeof(bool), "swagger", false))
 
     });
 }
-if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
-{
-    //production
-    Console.WriteLine("azure");
-    //testing
-    Console.WriteLine("Mongo Connection String: " + Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoCollection"));
-    Console.WriteLine("Mongo Database Name: " + Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoConnection"));
-}
-else
-{
-    Console.WriteLine("local");
-
-}
 
 
 
