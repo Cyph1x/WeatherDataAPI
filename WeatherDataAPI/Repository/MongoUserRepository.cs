@@ -1,12 +1,8 @@
-﻿using Amazon.Runtime.EventStreams.Internal;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.Identity;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using WeatherDataAPI.Models.AppUser;
 using WeatherDataAPI.Models.User;
 using WeatherDataAPI.Models.User.DTO;
-using WeatherDataAPI.Models.WeatherReadings;
 using WeatherDataAPI.Services;
 
 namespace WeatherDataAPI.Repository
@@ -68,7 +64,7 @@ namespace WeatherDataAPI.Repository
 
             return newUser._id.ToString();
         }
-        
+
         public List<AppUser> CreateUsers(List<AppUserBase> users)
         {
             var filter = Builders<AppUser>.Filter.In(AppUserNames.Email, users.Select(user => user.Email));
@@ -77,17 +73,17 @@ namespace WeatherDataAPI.Repository
             {
                 //user already exists
                 //reaise an error that a user already exists
-                
-                throw new Exception("A user with email '" + existingUser.Email + "' already exists." );
+
+                throw new Exception("A user with email '" + existingUser.Email + "' already exists.");
             }
             var newUsers = users.Select(user => new AppUser
             {
-                
+
                 Name = user.Name,
                 Email = user.Email,
                 Active = user.Active,
                 Permissions = user.Permissions
-                
+
             }).ToList();
             _users.InsertMany(newUsers);
             return newUsers;
@@ -111,8 +107,8 @@ namespace WeatherDataAPI.Repository
 
         public List<AppUser> GetUsers(AppUserFilter filter)
         {
-            return _users.FindSync(filter.BuildFilter(),filter.BuildFindOptions()).ToList();
-            
+            return _users.FindSync(filter.BuildFilter(), filter.BuildFindOptions()).ToList();
+
         }
 
         public long UpdateUser(AppUserBase user, string id)
@@ -126,7 +122,7 @@ namespace WeatherDataAPI.Repository
                     //user already exists
                     throw new Exception("A user with email '" + existingUser.Email + "' already exists.");
                 }
-            } 
+            }
 
             var update = user.ToUpdateDefinition();
             //if update equals null then no valid fields were provided

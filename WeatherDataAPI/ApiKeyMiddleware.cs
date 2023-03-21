@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.Mvc;
-using System.Security;
-using WeatherDataAPI.Attributes;
+﻿using WeatherDataAPI.Attributes;
 using WeatherDataAPI.Repository;
 
 public class ApiKeyMiddleware
@@ -20,7 +17,7 @@ public class ApiKeyMiddleware
     {
         var requiresApiKeyAuth = context.GetEndpoint()?.Metadata.GetMetadata<ApiKeyAttribute>() != null;
 
-        
+
 
         if (requiresApiKeyAuth)
         {

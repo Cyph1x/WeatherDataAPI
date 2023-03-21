@@ -1,11 +1,9 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Cors;
 using WeatherDataAPI.Attributes;
 using WeatherDataAPI.Models;
 using WeatherDataAPI.Models.AppUser;
@@ -20,7 +18,7 @@ namespace WeatherDataAPI.Controllers
     [ApiController]
     [EnableCors]
     [Route("[controller]")]
-    
+
 
     public class WeatherReadingsController : ControllerBase
     {
@@ -54,7 +52,7 @@ namespace WeatherDataAPI.Controllers
         // GET: api/<WeatherReadingController>
         [HttpGet]
         [ApiKey(nameof(Permissions.GetWeatherReadings))]
-        
+
         public async Task<ActionResult<List<WeatherReading>>> weatherReadingsAsync([FromQuery] WeatherReadingFilter? filter)
         {
             ValidationResult validationResult = await _filterValidator.ValidateAsync(filter);
@@ -112,7 +110,7 @@ namespace WeatherDataAPI.Controllers
             try
             {
                 var result = _readingRepository.CreateWeatherReading(weatherReading);
-                return CreatedAtAction(nameof(weatherReading), new CreateDTO{ id = result.Id }, new { id = result.Id });
+                return CreatedAtAction(nameof(weatherReading), new CreateDTO { id = result.Id }, new { id = result.Id });
             }
             catch (Exception ex)
             {
@@ -138,7 +136,7 @@ namespace WeatherDataAPI.Controllers
             {
                 var result = _readingRepository.CreateWeatherReadings(weatherReadings);
                 //return a list of all ids
-                return CreatedAtAction(nameof(weatherReadings), new { ids = result.Select(x => x.Id) }, new CreateManyDTO{ ids = result.Select(x => x.Id) });
+                return CreatedAtAction(nameof(weatherReadings), new { ids = result.Select(x => x.Id) }, new CreateManyDTO { ids = result.Select(x => x.Id) });
             }
             catch (Exception ex)
             {
@@ -174,8 +172,8 @@ namespace WeatherDataAPI.Controllers
                 {
                     return BadRequest("id must be a valid id");
                 }
-                
-                
+
+
             }
             catch (Exception ex)
             {
@@ -244,7 +242,7 @@ namespace WeatherDataAPI.Controllers
                 {
                     return BadRequest("id must be a valid id");
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -376,7 +374,7 @@ namespace WeatherDataAPI.Controllers
 
         public IActionResult MaxPrecipitationForLastFiveMonths(string deviceName)
         {
-            
+
             try
             {
                 WeatherReadingFilter filter = new WeatherReadingFilter();

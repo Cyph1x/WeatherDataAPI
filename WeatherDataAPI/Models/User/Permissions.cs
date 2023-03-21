@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
-using WeatherDataAPI.Models.User;
 
 namespace WeatherDataAPI.Models.AppUser
 {
@@ -74,19 +73,19 @@ namespace WeatherDataAPI.Models.AppUser
                     return true;
                 }
             }
-            catch {}
+            catch { }
             var type = GetType();
             var properties = type.GetProperties();
             foreach (var property in properties)
-                {
+            {
                 var name = property.Name;
                 if (name == permission)
-                    {
+                {
                     return (bool)property.GetValue(this);
                 }
             }
             return false;
-            
+
         }
 
     }

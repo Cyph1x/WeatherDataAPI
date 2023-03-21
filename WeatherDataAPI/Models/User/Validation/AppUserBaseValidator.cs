@@ -1,7 +1,4 @@
 ﻿using FluentValidation;
-using WeatherDataAPI.Models.User.DTO;
-using WeatherDataAPI.Models.WeatherReadings;
-using WeatherDataAPI.Models.WeatherReadings.Validation;
 
 namespace WeatherDataAPI.Models.User.Validation
 {
@@ -22,10 +19,10 @@ namespace WeatherDataAPI.Models.User.Validation
                 });
 
             });
-            RuleFor(user=>user.Name).NotEmpty().MaximumLength(128);
-            RuleFor(user=>user.Email).NotEmpty().EmailAddress().MaximumLength(128);
-            RuleFor(user=>user.Active).NotNull();
-            RuleFor(user=>user.Permissions).NotNull();
+            RuleFor(user => user.Name).NotEmpty().MaximumLength(128);
+            RuleFor(user => user.Email).NotEmpty().EmailAddress().MaximumLength(128);
+            RuleFor(user => user.Active).NotNull();
+            RuleFor(user => user.Permissions).NotNull();
 
         }
     }

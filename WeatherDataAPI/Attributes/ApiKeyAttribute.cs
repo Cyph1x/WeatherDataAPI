@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Security;
-using WeatherDataAPI.Models.AppUser;
-using WeatherDataAPI.Repository;
+﻿using WeatherDataAPI.Models.AppUser;
 
 namespace WeatherDataAPI.Attributes
 {
-   
+
     [AttributeUsage(validOn: AttributeTargets.Method | AttributeTargets.Class)]
     public class ApiKeyAttribute : Attribute
     {
@@ -30,8 +23,9 @@ namespace WeatherDataAPI.Attributes
             requiredPermissions = new List<string>(permissions);
 
         }
-        public ApiKeyAttribute(params string[] permissions) {
-            if (permissions == null || permissions.Length <=0)
+        public ApiKeyAttribute(params string[] permissions)
+        {
+            if (permissions == null || permissions.Length <= 0)
             {
                 requiredPermissions = new List<string> { nameof(Permissions.Admin) };
 

@@ -1,6 +1,4 @@
-﻿using System.Data;
-using WeatherDataAPI.Models.AppUser;
-using WeatherDataAPI.Models.User;
+﻿using WeatherDataAPI.Models.User;
 using WeatherDataAPI.Models.User.DTO;
 
 namespace WeatherDataAPI.Repository

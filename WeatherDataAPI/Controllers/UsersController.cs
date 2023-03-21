@@ -1,20 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.Data;
 using WeatherDataAPI.Attributes;
+using WeatherDataAPI.Models;
 using WeatherDataAPI.Models.AppUser;
 using WeatherDataAPI.Models.User;
-using WeatherDataAPI.Repository;
-using Swashbuckle.AspNetCore;
-using MongoDB.Bson;
-using WeatherDataAPI.Models.WeatherReadings;
-using WeatherDataAPI.Models;
-using WeatherDataAPI.Models.WeatherReadings.Validation;
 using WeatherDataAPI.Models.User.DTO;
-using WeatherDataAPI.Models.User.Validation;
-using FluentValidation;
+using WeatherDataAPI.Repository;
 using ValidationResult = FluentValidation.Results.ValidationResult;
-using Microsoft.AspNetCore.Cors;
 
 namespace WeatherDataAPI.Controllers
 {
@@ -42,7 +37,7 @@ namespace WeatherDataAPI.Controllers
             _appUserUpdateManyValidator = appUserUpdateManyValidator;
         }
 
-        
+
 
 
         /// <summary>
@@ -74,7 +69,7 @@ namespace WeatherDataAPI.Controllers
         [HttpPost]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateDTO))]
-        public ActionResult CreateUser([FromBody] AppUserBase user) 
+        public ActionResult CreateUser([FromBody] AppUserBase user)
         {
             ValidationResult validationResult = _appUserBaseValidator.Validate(user);
             if (!validationResult.IsValid)
@@ -87,7 +82,7 @@ namespace WeatherDataAPI.Controllers
                 return CreatedAtRoute("", new { id = result }, result);
             }
             else
-            { 
+            {
                 return BadRequest("User Already Exists");
             }
         }
@@ -156,7 +151,7 @@ namespace WeatherDataAPI.Controllers
                 return new BadRequestObjectResult(ex.Message);
             }
         }
-        
+
 
         /// <summary>
         ///  Replace a specific user with a new user
@@ -200,7 +195,7 @@ namespace WeatherDataAPI.Controllers
                 return new BadRequestObjectResult(ex.Message);
             }
         }
-        
+
 
         /// <summary>
         ///  Update information for a specific user
@@ -265,7 +260,7 @@ namespace WeatherDataAPI.Controllers
             }
             try
             {
-                
+
                 var result = _userRepository.UpdateUsers(users);
                 if (result >= 1)
                 {

@@ -1,10 +1,9 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using WeatherDataAPI.Models.WeatherReadings;
-using System.Text.Json.Serialization;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-using WeatherDataAPI.Models.AppUser;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using WeatherDataAPI.Models.AppUser;
 
 namespace WeatherDataAPI.Models.User
 {
@@ -35,7 +34,7 @@ namespace WeatherDataAPI.Models.User
         [JsonPropertyName(AppUserNames.Permissions)]
         [BsonElement(AppUserNames.Permissions)]
         [JsonPropertyOrder(AppUserOrders.Permissions)]
-        
+
         public Permissions? Permissions { get; set; }
 
 
@@ -107,7 +106,7 @@ namespace WeatherDataAPI.Models.User
             return update;
         }
     }
-    public class AppUser: AppUserBase
+    public class AppUser : AppUserBase
     {
         [BsonId]
         [JsonIgnore]
@@ -115,7 +114,7 @@ namespace WeatherDataAPI.Models.User
         [JsonPropertyName(AppUserNames.Id)]
         [BsonIgnore]
         [JsonPropertyOrder(AppUserOrders.Id)]
-        
+
         public string Id
         {
             get

@@ -1,12 +1,9 @@
 using FluentValidation;
-using FluentValidation.Validators;
+using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
 using WeatherDataAPI;
 using WeatherDataAPI.Models.User;
 using WeatherDataAPI.Models.User.DTO;
@@ -16,7 +13,7 @@ using WeatherDataAPI.Models.WeatherReadings.DTO;
 using WeatherDataAPI.Models.WeatherReadings.Validation;
 using WeatherDataAPI.Repository;
 using WeatherDataAPI.Services;
-using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 builder.Services.AddCors(options =>
@@ -50,7 +47,7 @@ services.AddScoped<IValidator<AppUserBase>, AppUserBaseValidator>();
 services.AddScoped<IValidator<List<AppUserBase>>, AppUserBaseManyValidator>();
 services.AddScoped<IValidator<AppUserCreateManyDTO>, AppUserCreateManyDTOValidator>();
 services.AddScoped<IValidator<List<AppUserCreateManyDTO>>, AppUserCreateManyDTOManyValidator>();
-services.AddScoped<IValidator<AppUserUpdateManyDTO>,AppUserUpdateManyDTOValidator>();
+services.AddScoped<IValidator<AppUserUpdateManyDTO>, AppUserUpdateManyDTOValidator>();
 services.AddScoped<IValidator<List<AppUserUpdateManyDTO>>, AppUserUpdateManyDTOManyValidator>();
 services.AddScoped<IValidator<AppUserFilter>, AppUserFilterValidator>();
 
@@ -91,32 +88,48 @@ app.UseAuthorization();
 
 
 #if DEBUG
-  app.Use(async (context, next) =>
-    {
-        var bodyStream = context.Response.Body;
-        using (var responseBody = new MemoryStream())
-        {
-            context.Response.Body = responseBody;
-            await next();
-            context.Response.Body.Seek(0, SeekOrigin.Begin);
-            var responseBodyText = await new StreamReader(context.Response.Body).ReadToEndAsync();
-            context.Response.Body.Seek(0, SeekOrigin.Begin);
-            Console.WriteLine($"Response Body: {responseBodyText}");
-            await responseBody.CopyToAsync(bodyStream);
-        }
-    });
+app.Use(async (context, next) =>
+  {
+      var bodyStream = context.Response.Body;
+      using (var responseBody = new MemoryStream())
+      {
+          context.Response.Body = responseBody;
+          await next();
+          context.Response.Body.Seek(0, SeekOrigin.Begin);
+          var responseBodyText = await new StreamReader(context.Response.Body).ReadToEndAsync();
+          context.Response.Body.Seek(0, SeekOrigin.Begin);
+          Console.WriteLine($"Response Body: {responseBodyText}");
+          await responseBody.CopyToAsync(bodyStream);
+      }
+  });
 #else
 // Release work here  
 #endif
 // Configure the HTTP request pipeline.
-if ((bool)builder.Configuration.GetValue(typeof(bool),"dev",false))
+if ((bool)builder.Configuration.GetValue(typeof(bool), "swagger", false))
 {
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
         options.RoutePrefix = "";
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherDataAPI");
+
     });
 }
+if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
+{
+    //production
+    Console.WriteLine("azure");
+    //testing
+    Console.WriteLine("Mongo Connection String: " + Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoCollection"));
+    Console.WriteLine("Mongo Database Name: " + Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoConnection"));
+}
+else
+{
+    Console.WriteLine("local");
+
+}
+
 
 
 app.UseHttpsRedirection();

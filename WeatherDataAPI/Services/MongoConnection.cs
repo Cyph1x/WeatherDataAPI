@@ -15,20 +15,12 @@ namespace WeatherDataAPI.Services
             {
                 _connectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoCollection");
                 _databaseName = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoConnection");
-                //testing
-                Console.WriteLine("Mongo Connection String: " + _connectionString);
-                Console.WriteLine("Mongo Database Name: " + _databaseName);
             }
             else
-            { 
-            _connectionString = mongoConnection.Value.ConnectionString;
-            _databaseName = mongoConnection.Value.DatabaseName;
+            {
+                _connectionString = mongoConnection.Value.ConnectionString;
+                _databaseName = mongoConnection.Value.DatabaseName;
             }
-        }
-
-        public MongoConnection(IConfiguration configuration)
-        {
-            
         }
 
         public IMongoDatabase GetDatabase()

@@ -3,7 +3,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.ComponentModel.DataAnnotations;
-using WeatherDataAPI.Models;
 using WeatherDataAPI.Models.WeatherReadings;
 using WeatherDataAPI.Models.WeatherReadings.DTO;
 using WeatherDataAPI.Services;
@@ -91,7 +90,7 @@ namespace WeatherDataAPI.Repository
 
         public long UpdateWeatherReading(WeatherReadingUpdateDTO weatherReading, string id)
         {
-            
+
             var update = weatherReading.ToUpdateDefinition();
             //if update equals null then no valid fields were provided
             if (update == null)
@@ -106,9 +105,9 @@ namespace WeatherDataAPI.Repository
                 var original = _WeatherReadings.Find(reading => reading._id == new ObjectId(id)).FirstOrDefault();
                 if (original != null)
                 {
-                     result = _WeatherReadings.UpdateOne(
-                        reading => reading._id == new ObjectId(id) && reading.WindDirection == original.WindDirection,
-                        update);
+                    result = _WeatherReadings.UpdateOne(
+                       reading => reading._id == new ObjectId(id) && reading.WindDirection == original.WindDirection,
+                       update);
                 }
                 else
                 {
@@ -191,7 +190,7 @@ namespace WeatherDataAPI.Repository
     new BsonDocument("$project",
     new BsonDocument
         {
-        
+
             { "_id", "$Id" },
             { WeatherReadingNames.DeviceName, "$_id" },
             { WeatherReadingNames.Temperature, 1 },

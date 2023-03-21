@@ -1,9 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Security;
 using System.Text.Json.Serialization;
 using WeatherDataAPI.Models.AppUser;
-using WeatherDataAPI.Models.WeatherReadings;
 
 namespace WeatherDataAPI.Models.User
 {
@@ -14,7 +12,7 @@ namespace WeatherDataAPI.Models.User
         public string? Name { get; set; }
         [JsonPropertyName(AppUserNames.Email)]
         [JsonPropertyOrder(AppUserOrders.Email)]
-        
+
         public string? Email { get; set; }
         [JsonPropertyName(AppUserNames.Active)]
         [JsonPropertyOrder(AppUserOrders.Active)]
@@ -38,13 +36,13 @@ namespace WeatherDataAPI.Models.User
         [JsonPropertyName(AppUserNames.ApiKey)]
         [JsonPropertyOrder(AppUserOrders.ApiKey)]
         public string? ApiKey { get; set; }
-        [JsonPropertyName(AppUserNames.ApiKey+"s")]
+        [JsonPropertyName(AppUserNames.ApiKey + "s")]
         [JsonPropertyOrder(AppUserOrders.ApiKey)]
         public List<string>? ApiKeys { get; set; }
         [JsonPropertyName(AppUserNames.Id)]
         [JsonPropertyOrder(AppUserOrders.Id)]
         public string? Id { get; set; }
-        [JsonPropertyName(AppUserNames.Id+"s")]
+        [JsonPropertyName(AppUserNames.Id + "s")]
         [JsonPropertyOrder(AppUserOrders.Id)]
         public List<string>? Ids { get; set; }
         /// <summary>
