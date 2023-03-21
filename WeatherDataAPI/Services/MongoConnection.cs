@@ -13,11 +13,13 @@ namespace WeatherDataAPI.Services
             // Add services to the container.
             if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
             {
-                _connectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoCollection");
-                _databaseName = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoConnection");
+                Console.WriteLine("azure");
+                _connectionString = Environment.GetEnvironmentVariable("mongoCollection");
+                _databaseName = Environment.GetEnvironmentVariable("mongoConnection");
             }
             else
             {
+                Console.WriteLine("local");
                 _connectionString = mongoConnection.Value.ConnectionString;
                 _databaseName = mongoConnection.Value.DatabaseName;
             }
