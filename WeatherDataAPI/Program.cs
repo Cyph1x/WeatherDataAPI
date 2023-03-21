@@ -16,7 +16,7 @@ using WeatherDataAPI.Models.WeatherReadings.DTO;
 using WeatherDataAPI.Models.WeatherReadings.Validation;
 using WeatherDataAPI.Repository;
 using WeatherDataAPI.Services;
-
+using Microsoft.Extensions.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 builder.Services.AddCors(options =>
@@ -30,6 +30,7 @@ builder.Services.AddCors(options =>
 
 });
 // Add services to the container.
+
 services.Configure<DefaultMongoConnection>(builder.Configuration.GetSection("DefaultMongoConnection"));
 services.AddScoped<MongoConnection>();
 //repos
@@ -111,7 +112,10 @@ app.UseAuthorization();
 if ((bool)builder.Configuration.GetValue(typeof(bool),"dev",false))
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.RoutePrefix = "";
+    });
 }
 
 

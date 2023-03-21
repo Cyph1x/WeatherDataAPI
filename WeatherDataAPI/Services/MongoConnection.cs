@@ -6,21 +6,40 @@ namespace WeatherDataAPI.Services
     public class MongoConnection
     {
         // Dependency Injection Setup
-        private readonly IOptions<DefaultMongoConnection> _mongoConnection;
+        private string _connectionString;
+        private string _databaseName;
         public MongoConnection(IOptions<DefaultMongoConnection> mongoConnection)
         {
-            _mongoConnection = mongoConnection;
+            // Add services to the container.
+            if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
+            {
+                _connectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoCollection");
+                _databaseName = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_mongoConnection");
+                //testing
+                Console.WriteLine("Mongo Connection String: " + _connectionString);
+                Console.WriteLine("Mongo Database Name: " + _databaseName);
+            }
+            else
+            { 
+            _connectionString = mongoConnection.Value.ConnectionString;
+            _databaseName = mongoConnection.Value.DatabaseName;
+            }
+        }
+
+        public MongoConnection(IConfiguration configuration)
+        {
+            
         }
 
         public IMongoDatabase GetDatabase()
         {
-            var client = new MongoClient(_mongoConnection.Value.ConnectionString);
-            return client.GetDatabase(_mongoConnection.Value.DatabaseName);
+            var client = new MongoClient(_connectionString);
+            return client.GetDatabase(_databaseName);
         }
 
         public IMongoDatabase GetDatabase(string databaseName)
         {
-            var client = new MongoClient(_mongoConnection.Value.ConnectionString);
+            var client = new MongoClient(_connectionString);
             return client.GetDatabase(databaseName);
         }
 
