@@ -108,12 +108,12 @@ app.UseAuthorization();
 // Release work here  
 #endif
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if ((bool)builder.Configuration.GetValue(typeof(bool),"dev",false))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    
 }
+
 
 app.UseHttpsRedirection();
 
