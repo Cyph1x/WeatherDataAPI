@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver.Core.Configuration;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using WeatherDataAPI;
@@ -51,8 +52,15 @@ services.AddScoped<IValidator<AppUserUpdateManyDTO>, AppUserUpdateManyDTOValidat
 services.AddScoped<IValidator<List<AppUserUpdateManyDTO>>, AppUserUpdateManyDTOManyValidator>();
 services.AddScoped<IValidator<AppUserFilter>, AppUserFilterValidator>();
 
-
-
+string description = "API key needed to access the endpoints";
+if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
+{
+    //operating in a cloud environment
+    if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("description")))
+    {
+        description = Environment.GetEnvironmentVariable("description");
+    }
+}
 services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
@@ -60,7 +68,7 @@ services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.ApiKey,
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Description = "API key needed to access the endpoints"
+        Description = description
     });
     options.OperationFilter<ApiKeyOperationFilter>();
     // using System.Reflection;
