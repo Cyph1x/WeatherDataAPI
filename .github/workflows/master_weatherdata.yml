@@ -20,7 +20,7 @@ jobs:
         id: configure-appsettings
         uses: jsdaniell/create-json@v1.2.2
         with:
-            name: "appsettings.json"
+            name: "${{env.DOTNET_ROOT}}/myapp/appsettings.json"
             json: ${{ secrets.APPSETTINGS }}
 
       - name: Set up .NET Core
