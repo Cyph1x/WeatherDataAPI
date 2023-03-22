@@ -33,7 +33,8 @@ jobs:
         id: configure-appsettings
         uses: jsdaniell/create-json@v1.2.2
         with:
-            name: "${{env.DOTNET_ROOT}}/myapp/appsettings.json"
+            name: "appsettings.json"
+            dir: "${{env.DOTNET_ROOT}}/myapp/"
             json: ${{ secrets.APPSETTINGS }}
 
       - name: Upload artifact for deployment job
