@@ -44,6 +44,7 @@ services.AddScoped<IValidator<List<WeatherReading>>, WeatherReadingManyValidator
 services.AddScoped<IValidator<WeatherReadingFilter>, WeatherReadingFilterValidator>();
 services.AddScoped<IValidator<List<WeatherReadingFilter>>, WeatherReadingFilterManyValidator>();
 //App user validators
+
 services.AddScoped<IValidator<AppUserBase>, AppUserBaseValidator>();
 services.AddScoped<IValidator<List<AppUserBase>>, AppUserBaseManyValidator>();
 services.AddScoped<IValidator<AppUserCreateManyDTO>, AppUserCreateManyDTOValidator>();
@@ -75,11 +76,6 @@ services.AddSwaggerGen(options =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
-// Add FV
-services.AddFluentValidationAutoValidation();
-services.AddFluentValidationClientsideAdapters();
-// Add FV validators
-services.AddValidatorsFromAssemblyContaining<Program>();
 // Add FV Rules to swagger
 services.AddFluentValidationRulesToSwagger();
 services.AddControllers().AddJsonOptions(options =>
