@@ -29,14 +29,6 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
-      - name: configure-appsettings
-        id: configure-appsettings
-        uses: jsdaniell/create-json@v1.2.2
-        with:
-            name: "appsettings.json"
-            dir: "${{env.DOTNET_ROOT}}/myapp/"
-            json: ${{ secrets.APPSETTINGS }}
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
