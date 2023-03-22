@@ -16,13 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: configure-appsettings
-        id: configure-appsettings
-        uses: jsdaniell/create-json@v1.2.2
-        with:
-            name: "${{env.DOTNET_ROOT}}/myapp/appsettings.json"
-            json: ${{ secrets.APPSETTINGS }}
-
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -35,6 +28,13 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+      - name: configure-appsettings
+        id: configure-appsettings
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+            name: "${{env.DOTNET_ROOT}}/myapp/appsettings.json"
+            json: ${{ secrets.APPSETTINGS }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
