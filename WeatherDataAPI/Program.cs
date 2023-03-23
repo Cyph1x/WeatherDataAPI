@@ -52,8 +52,7 @@ services.AddScoped<IValidator<List<AppUserCreateManyDTO>>, AppUserCreateManyDTOM
 services.AddScoped<IValidator<AppUserUpdateManyDTO>, AppUserUpdateManyDTOValidator>();
 services.AddScoped<IValidator<List<AppUserUpdateManyDTO>>, AppUserUpdateManyDTOManyValidator>();
 services.AddScoped<IValidator<AppUserFilter>, AppUserFilterValidator>();
-
-string description = "API key needed to access the endpoints";
+string description = "A R.E.S.T API for performing CRUD interactions on a database";
 if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
 {
     //operating in a cloud environment
@@ -64,12 +63,19 @@ if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"
 }
 services.AddSwaggerGen(options =>
 {
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Weather Readings API",
+        Description = description,
+        
+    });
     options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.ApiKey,
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Description = description
+        Description = "API key needed to access the endpoints"
     });
     options.OperationFilter<ApiKeyOperationFilter>();
     // using System.Reflection;
